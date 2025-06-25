@@ -8,6 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "users")
@@ -17,11 +21,24 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	private String username;
+	@NotBlank(message = "ユーザー名は必須です")
+	@Size(min = 2, max = 12, message = "ユーザー名は2文字以上12文字以内で入力してください")
+	private String name;
+
+	@NotBlank(message = "メールアドレスは必須です")
+	@Size(min = 5, max = 40, message = "メールアドレスは5文字以上40文字以内で入力してください")
+	@Email(message = "メールアドレスの形式が正しくありません")
 	private String email;
+
+	@NotBlank(message = "パスワードは必須です")
+	@Size(min = 8, max = 20, message = "パスワードは8文字以上20文字以内で入力してください")
+	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "パスワードは英数字のみで入力してください")
 	private String password;
+
 	private String bio;
-	private String icon_image;
+
+	@Column(name = "icon_image")
+	private String iconImage = "icon1.png";
 
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;
@@ -38,9 +55,9 @@ public class User {
 	}
 
 	// 新規登録用コンストラクタ
-	public User(String username, String email, String password) {
+	public User(String name, String email, String password) {
 		super();
-		this.username = username;
+		this.name = name;
 		this.email = email;
 		this.password = password;
 	}
@@ -54,12 +71,12 @@ public class User {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -86,12 +103,12 @@ public class User {
 		this.bio = bio;
 	}
 
-	public String getIcon_image() {
-		return icon_image;
+	public String getIconImage() {
+		return iconImage;
 	}
 
-	public void setIcon_image(String icon_image) {
-		this.icon_image = icon_image;
+	public void setIconImage(String iconImage) {
+		this.iconImage = iconImage;
 	}
 
 	public Timestamp getCreatedAt() {
