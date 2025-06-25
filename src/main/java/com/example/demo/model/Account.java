@@ -1,0 +1,35 @@
+package com.example.demo.model;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
+
+@Component
+@SessionScope
+public class Account {
+
+	private Integer id;
+	private String username;
+
+	// デフォルトコンストラクタ
+	public Account() {
+		super();
+	}
+
+	// ゲッター＆セッター
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+}
