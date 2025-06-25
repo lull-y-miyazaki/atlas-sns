@@ -1,10 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
 
+	<h2>ユーザー新規登録</h2>
+
+	<form action="/auth/register" method="post" th:object="${user}">
+		<div>
+			<input type="text" th:field="${user.name}" class="" placeholder="名前" required pattern=".{3,15}"
+				title="※名前は3～15文字以内" />
+			<div th:if="${#fields.hasErrors('name')}" th:errors="${user.name}"></div>
+		</div>
+		<div>
+			<input type="email" th:field="${user.email}" class="" placeholder="メールアドレス" required />
+			<div th:if="${#fields.hasErrors('email')}" th:errors="${user.email}"></div>
+		</div>
+		<div>
+			<input type="password" th:field="${user.password}" class="" placeholder="パスワード" required
+				pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$" title="※英数字を含む5文字以上" />
+			<div th:if="${#fields.hasErrors('password')}" th:errors="${user.password}"></div>
+		</div>
+		<div>
+			<input type="password" name="password_confirm" class="" placeholder="パスワード（確認）" required />
+		</div>
+		<div th:if="${error != null}" th:text="${error}"></div>
+		<button>新規作成</button>
+	</form>
+
+	<a href="/auth/login">ログイン画面へ戻る</a>
+
 </body>
+
 </html>
