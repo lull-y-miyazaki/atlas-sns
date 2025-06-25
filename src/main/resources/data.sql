@@ -1,5 +1,5 @@
 -- 初期ユーザー
-INSERT INTO users (username, email, password, bio, icon_image, created_at, updated_at)
+INSERT INTO users (name, email, password, bio, icon_image, created_at, updated_at)
 VALUES 
 ('テストユーザー', 'testuser@com', 'testuser', 'テストユーザーです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
 ('テストA', 'testa@com', 'testuser', 'テストユーザーAです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
