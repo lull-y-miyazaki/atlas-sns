@@ -1,9 +1,81 @@
 // 投稿処理のController
 package com.example.demo.controller.post;
 
+import java.util.List;
+
+import jakarta.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.example.demo.entity.Post;
+import com.example.demo.model.Account;
+import com.example.demo.repository.PostRepository;
 
 @Controller
+@RequestMapping("/posts")
 public class PostController {
+
+	@Autowired
+	PostRepository postRepository;
+
+	@Autowired
+	Account account;
+
+	// TOPページ画面の表示
+	@GetMapping("/index")
+	public String showIndex(Model model) {
+
+		// 一旦自分の投稿のみ
+		List<Post> postList = postRepository.findByUserId(account.getId());
+		model.addAttribute("postList", postList);
+
+		// フォーム用インスタンス生成、既にあればそのまま
+		if (!model.containsAttribute("post")) {
+			model.addAttribute("post", new Post());
+		}
+
+		return "posts/index";
+	}
+
+	// 投稿の登録処理
+	@PostMapping("/createPost")
+	public String createPost(
+			@Valid @ModelAttribute Post post,
+			BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+
+		if (bindingResult.hasErrors()) {
+			// エラー内容をリダイレクト先に渡す
+			redirectAttributes.addFlashAttribute("org.springframework.validation.BindingResult.post", bindingResult);
+			redirectAttributes.addFlashAttribute("post", post);
+			return "redirect:/posts/index";
+		}
+
+		post.setUserId(account.getId());
+		postRepository.save(post);
+		redirectAttributes.addFlashAttribute("success", "投稿が完了しました！");
+
+		return "redirect:/posts/index";
+	}
+
+	// 投稿の削除
+	@PostMapping("/{postId}/delete")
+	public String deletePost(
+			@PathVariable Integer postId,
+			Model model) {
+
+		postRepository.deleteById(postId);
+
+		return "redirect:/posts/index";
+	}
 
 }
