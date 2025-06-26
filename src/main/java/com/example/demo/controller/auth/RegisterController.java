@@ -59,7 +59,11 @@ public class RegisterController {
 
 	// 登録完了画面の表示
 	@GetMapping("/added")
-	public String showAdded() {
+	public String showAdded(@ModelAttribute("name") String name) {
+		if (name == null || name.isEmpty()) {
+			// 直接アクセス・再読み込み時はログインへ
+			return "redirect:/auth/login";
+		}
 		return "auth/added";
 	}
 
