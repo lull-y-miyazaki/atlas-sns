@@ -8,6 +8,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "posts")
@@ -20,7 +22,10 @@ public class Post {
 	@Column(name = "user_id")
 	private Integer userId;
 
-	private String post;
+	@NotBlank(message = "投稿内容は必須です")
+	@Size(min = 1, max = 150, message = "投稿内容は1文字以上150文字以内で入力してください")
+	@Column(name = "post")
+	private String content;
 
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;
@@ -37,10 +42,10 @@ public class Post {
 	}
 
 	// 新規登録用コンストラクタ
-	public Post(Integer userId, String post) {
+	public Post(Integer userId, String content) {
 		super();
 		this.userId = userId;
-		this.post = post;
+		this.content = content;
 	}
 
 	// ゲッター＆セッター
@@ -60,12 +65,12 @@ public class Post {
 		this.userId = userId;
 	}
 
-	public String getPost() {
-		return post;
+	public String getContent() {
+		return content;
 	}
 
-	public void setPost(String post) {
-		this.post = post;
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public Timestamp getCreatedAt() {
