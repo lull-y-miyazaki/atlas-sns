@@ -1,6 +1,7 @@
 // 投稿処理のController
 package com.example.demo.controller.post;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.validation.Valid;
@@ -16,13 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.example.demo.entity.Follow;
 import com.example.demo.entity.Post;
+import com.example.demo.entity.User;
 import com.example.demo.model.Account;
 import com.example.demo.repository.PostRepository;
+import com.example.demo.repository.UserRepository;
 
 @Controller
 @RequestMapping("/posts")
 public class PostController {
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	PostRepository postRepository;
@@ -34,8 +41,35 @@ public class PostController {
 	@GetMapping("/index")
 	public String showIndex(Model model) {
 
-		// 一旦自分の投稿のみ
-		List<Post> postList = postRepository.findByUserId(account.getId());
+		User loginUser = userRepository.findById(account.getId()).orElse(null);
+
+		// 自分とフォローユーザーの投稿を分割して取得して、追加して並び替えするやり方
+		/*
+		List<Post> postList = new ArrayList<>();
+		
+		// 自分の投稿を取得
+		List<Post> myPosts = postRepository.findByUserId(loginUser.getId());
+		postList.addAll(myPosts);
+		
+		// フォローしているユーザーの投稿をリストに追加
+		for (Follow follow : loginUser.getFollowings()) {
+			User followee = follow.getFollowee();
+			List<Post> followeePosts = postRepository.findByUserId(followee.getId());
+			postList.addAll(followeePosts);
+		}
+		
+		// ラムダ式（無名関数）で、投稿順に並び替え
+		postList.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
+		*/
+
+		// DB側でまとめて取得して並び替え
+		List<Integer> userIds = new ArrayList<>();
+		userIds.add(loginUser.getId());
+		for (Follow follow : loginUser.getFollowings()) {
+			userIds.add(follow.getFollowee().getId());
+		}
+		List<Post> postList = postRepository.findByUserIdInOrderByCreatedAtDesc(userIds);
+
 		model.addAttribute("postList", postList);
 
 		// フォーム用インスタンス生成、既にあればそのまま
