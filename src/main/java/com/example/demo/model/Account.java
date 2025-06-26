@@ -8,7 +8,8 @@ import org.springframework.web.context.annotation.SessionScope;
 public class Account {
 
 	private Integer id;
-	private String username;
+	private String name;
+	private String iconImage;
 
 	// デフォルトコンストラクタ
 	public Account() {
@@ -24,12 +25,31 @@ public class Account {
 		this.id = id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getName() {
+		return name;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getIconImage() {
+		return iconImage;
+	}
+
+	public void setIconImage(String iconImage) {
+		this.iconImage = iconImage;
+	}
+
+	// ログイン状態を確認するメソッド
+	public boolean isLoggedIn() {
+		return id != null;
+	}
+
+	// デバッグ・ログ出力用
+	@Override
+	public String toString() {
+		return "Account{id = " + id + ", name = '" + name + "'}";
 	}
 
 }

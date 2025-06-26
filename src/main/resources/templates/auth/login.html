@@ -11,10 +11,10 @@
 	<form action="/auth/login" method="post">
 		<div th:text="${message}"></div>
 		<div>
-			<input type="text" name="email" placeholder="メールアドレス" />
+			<input type="text" name="email" placeholder="メールアドレス" required />
 		</div>
 		<div>
-			<input type="text" name="password" placeholder="パスワード" />
+			<input type="password" name="password" placeholder="パスワード" required />
 		</div>
 		<button>ログイン</button>
 	</form>

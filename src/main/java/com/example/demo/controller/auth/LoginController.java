@@ -69,10 +69,10 @@ public class LoginController {
 
 		// ログイン情報をAccountに保存
 		account.setId(user.getId());
-		account.setUsername(user.getName());
-		// account.setIcon(user.getIcon());
+		account.setName(user.getName());
+		account.setIconImage(user.getIconImage());
 
-		return "redirect:/";
+		return "redirect:/posts/index";
 	}
 
 }
