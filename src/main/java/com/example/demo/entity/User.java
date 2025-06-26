@@ -1,12 +1,14 @@
 package com.example.demo.entity;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -48,6 +50,12 @@ public class User {
 
 	@Column(name = "deleted_at")
 	private Timestamp deletedAt;
+
+	@OneToMany(mappedBy = "follower")
+	private List<Follow> followings;
+
+	@OneToMany(mappedBy = "followee")
+	private List<Follow> followers;
 
 	// デフォルトコンストラクタ
 	public User() {
@@ -133,6 +141,22 @@ public class User {
 
 	public void setDeletedAt(Timestamp deletedAt) {
 		this.deletedAt = deletedAt;
+	}
+
+	public List<Follow> getFollowings() {
+		return followings;
+	}
+
+	public void setFollowings(List<Follow> followings) {
+		this.followings = followings;
+	}
+
+	public List<Follow> getFollowers() {
+		return followers;
+	}
+
+	public void setFollowers(List<Follow> followers) {
+		this.followers = followers;
 	}
 
 }

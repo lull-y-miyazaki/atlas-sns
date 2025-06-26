@@ -1,10 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
 
+	<div>
+		<form action="/users/search" method="get">
+			<input type="text" name="keyword" th:value="${keyword}" placeholder="ユーザー名" />
+			<button type="submit">検索</button>
+		</form>
+		<span th:if="${keyword}">検索ワード：[[${keyword}]]</span>
+	</div>
+
+	<div th:each="user:${userList}">
+		<div th:text="${user.name}"></div>
+		<div th:text="${user.updatedAt}"></div>
+
+		<!--/* contains(List, item) は「そのリストにその要素が含まれているか」をbooleanで返す */-->
+		<!--/* #listsはThymeleafのユーティリティオブジェクト */-->
+		
+		<!--/* 現在のuserが、followingUsersに含まれている場合 */-->
+		<div th:if="${#lists.contains(followingUsers, user)}">
+			<form th:action="@{/users/unfollow}" method="post">
+				<input type="hidden" name="followUserId" th:value="${user.id}" />
+				<button type="submit">フォロー解除</button>
+			</form>
+		</div>
+
+		<!--/* 現在のuserが、followingUsersに含まれていない場合 */-->
+		<div th:if="${!#lists.contains(followingUsers, user)}">
+			<form th:action="@{/users/follow}" method="post">
+				<input type="hidden" name="followUserId" th:value="${user.id}" />
+				<button type="submit">フォロー</button>
+			</form>
+		</div>
+
+	</div>
+
 </body>
+
 </html>
