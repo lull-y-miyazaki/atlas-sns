@@ -1,10 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
 </head>
+
 <body>
+	
+	<header th:replace="~{fragments/header}"></header>
+	
+	<img th:src="@{${user.iconImage}}" alt="プロフィール画像">
+	<div>ユーザー名</div>
+	<div th:text="${user.name}"></div>
+	<div>自己紹介</div>
+	<div th:text="${user.bio}"></div>
+
+	<!-- フォローしている場合 -->
+	<div th:if="${isFollowing}">
+		<form th:action="@{/users/unfollow}" method="post">
+			<input type="hidden" name="followUserId" th:value="${user.id}" />
+			<button type="submit">フォロー解除</button>
+		</form>
+	</div>
+
+	<!-- フォローしていない場合 -->
+	<div th:if="${!isFollowing}">
+		<form th:action="@{/users/follow}" method="post">
+			<input type="hidden" name="followUserId" th:value="${user.id}" />
+			<button type="submit">フォロー</button>
+		</form>
+	</div>
+
+	<!-- ユーザーの投稿一覧 -->
+	<div th:each="post:${postList}">
+		<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
+		<div th:text="${post.user.name}"></div>
+		<div th:text="${post.content}"></div>
+		<div th:text="${post.updatedAt}"></div>
+	</div>
 
 </body>
+
 </html>
