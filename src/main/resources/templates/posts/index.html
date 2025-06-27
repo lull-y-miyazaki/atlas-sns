@@ -8,6 +8,8 @@
 
 <body>
 
+	<header th:replace="~{fragments/header}"></header>
+
 	<div th:if="${success != null}" th:text="${success}"></div>
 
 	<div>
@@ -28,6 +30,10 @@
 			<button>削除</button>
 		</form>
 	</div>
+
+	<a th:href="@{/users/{accountId}/followings(accountId=${@account.id})}">フォローリスト</a>
+	<a th:href="@{/users/{accountId}/followers(accountId=${@account.id})}">フォロワーリスト</a>
+	<a href="/users/search">ユーザー検索</a>
 
 </body>
 
