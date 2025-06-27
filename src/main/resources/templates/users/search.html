@@ -8,6 +8,8 @@
 
 <body>
 	
+	<header th:replace="~{fragments/header}"></header>
+
 	<div th:if="${info}">
 		<span th:text="${info}"></span>
 	</div>
@@ -21,12 +23,15 @@
 	</div>
 
 	<div th:each="user:${userList}">
-		<div th:text="${user.name}"></div>
+		<a th:href="@{/users/{userId}/profile(userId=${user.id})}">
+			<img th:src="@{${user.iconImage}}" alt="プロフィール画像">
+			<span th:text="${user.name}"></span>
+		</a>
 		<div th:text="${user.updatedAt}"></div>
 
 		<!--/* contains(List, item) は「そのリストにその要素が含まれているか」をbooleanで返す */-->
 		<!--/* #listsはThymeleafのユーティリティオブジェクト */-->
-		
+
 		<!--/* 現在のuserが、followingUsersに含まれている場合 */-->
 		<div th:if="${#lists.contains(followingUsers, user)}">
 			<form th:action="@{/users/unfollow}" method="post">

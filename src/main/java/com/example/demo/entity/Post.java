@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -19,8 +21,9 @@ public class Post {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
-	@Column(name = "user_id")
-	private Integer userId;
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@NotBlank(message = "投稿内容は必須です")
 	@Size(min = 1, max = 150, message = "投稿内容は1文字以上150文字以内で入力してください")
@@ -42,9 +45,9 @@ public class Post {
 	}
 
 	// 新規登録用コンストラクタ
-	public Post(Integer userId, String content) {
+	public Post(User user, String content) {
 		super();
-		this.userId = userId;
+		this.user = user;
 		this.content = content;
 	}
 
@@ -57,12 +60,12 @@ public class Post {
 		this.id = id;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public User getUser() {
+		return user;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getContent() {

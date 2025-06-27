@@ -40,7 +40,7 @@ public class User {
 	private String bio;
 
 	@Column(name = "icon_image")
-	private String iconImage = "icon1.png";
+	private String iconImage = "/images/icon1.png";
 
 	@Column(name = "created_at", insertable = false, updatable = false)
 	private Timestamp createdAt;

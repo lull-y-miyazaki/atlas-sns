@@ -1,12 +1,12 @@
 -- 初期ユーザー
 INSERT INTO users (name, email, password, bio, icon_image, created_at, updated_at)
 VALUES 
-('テストユーザー', 'testuser@com', 'testuser123', 'テストユーザーです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('テストA', 'testa@com', 'testuser123', 'テストユーザーAです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('テストB', 'testb@com', 'testuser123', 'テストユーザーBです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('テストC', 'testc@com', 'testuser123', 'テストユーザーCです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('テストD', 'testd@com', 'testuser123', 'テストユーザーDです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
-('テストE', 'teste@com', 'testuser123', 'テストユーザーEです', 'icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
+('テストユーザー', 'testuser@com', 'testuser123', 'テストユーザーです', '/images/icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('テストA', 'testa@com', 'testuser123', 'テストユーザーAです', '/images/icon1.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('テストB', 'testb@com', 'testuser123', 'テストユーザーBです', '/images/icon2.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('テストC', 'testc@com', 'testuser123', 'テストユーザーCです', '/images/icon3.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('テストD', 'testd@com', 'testuser123', 'テストユーザーDです', '/images/icon4.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP),
+('テストE', 'teste@com', 'testuser123', 'テストユーザーEです', '/images/icon5.png', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 
 -- 初期投稿
 INSERT INTO posts (user_id, post, created_at, updated_at)

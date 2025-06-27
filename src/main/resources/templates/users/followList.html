@@ -7,6 +7,8 @@
 </head>
 
 <body>
+	
+	<header th:replace="~{fragments/header}"></header>
 
 	<h2 th:text="${listType == 'followings'} ? 'フォローリスト' : 'フォロワーリスト'"></h2>
 

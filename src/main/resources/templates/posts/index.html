@@ -21,6 +21,18 @@
 	</div>
 
 	<div th:each="post:${postList}">
+		<!-- ログインユーザー自身の場合 -->
+		<a th:if="${post.user.id == loginUser.id}" th:href="@{/users/myProfile}">
+			<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
+			<div th:text="${post.user.name}"></div>
+		</a>
+
+		<!-- 他のユーザーの場合 -->
+		<a th:if="${post.user.id != loginUser.id}" th:href="@{/users/{userId}/profile(userId=${post.user.id})}">
+			<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
+			<div th:text="${post.user.name}"></div>
+		</a>
+
 		<div th:text="${post.content}"></div>
 		<div th:text="${post.updatedAt}"></div>
 		<form action="">

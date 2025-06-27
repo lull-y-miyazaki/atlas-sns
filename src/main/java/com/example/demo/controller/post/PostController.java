@@ -62,7 +62,7 @@ public class PostController {
 		postList.sort((a, b) -> b.getCreatedAt().compareTo(a.getCreatedAt()));
 		*/
 
-		// DB側でまとめて取得して並び替え
+		// 投稿一覧はDB側でまとめて取得して並び替え
 		List<Integer> userIds = new ArrayList<>();
 		userIds.add(loginUser.getId());
 		for (Follow follow : loginUser.getFollowings()) {
@@ -70,6 +70,7 @@ public class PostController {
 		}
 		List<Post> postList = postRepository.findByUserIdInOrderByCreatedAtDesc(userIds);
 
+		model.addAttribute("loginUser", loginUser);
 		model.addAttribute("postList", postList);
 
 		// フォーム用インスタンス生成、既にあればそのまま
@@ -94,7 +95,7 @@ public class PostController {
 			return "redirect:/posts/index";
 		}
 
-		post.setUserId(account.getId());
+		post.setUser(userRepository.findById(account.getId()).orElseThrow());
 		postRepository.save(post);
 		redirectAttributes.addFlashAttribute("success", "投稿が完了しました！");
 

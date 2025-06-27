@@ -14,4 +14,6 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
 	// SELECT * FROM posts WHERE user_id IN (?, ?, ?, ...) ORDER BY created_at DESC;
 	List<Post> findByUserIdInOrderByCreatedAtDesc(List<Integer> userIds);
 
+	List<Post> findByUserIdOrderByCreatedAtDesc(Integer userId);
+
 }
