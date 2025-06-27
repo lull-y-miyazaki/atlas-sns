@@ -29,6 +29,7 @@ public class FollowController {
 	@Autowired
 	private Account account;
 
+	// フォロー登録処理
 	@PostMapping("/follow")
 	public String followUser(
 			@RequestParam(name = "followUserId") Integer followUserId,
@@ -40,7 +41,7 @@ public class FollowController {
 
 		if (optLoginUser.isEmpty() || optFollowUser.isEmpty()) {
 			// NULLの場合はエラー文を出力
-			redirectAttributes.addFlashAttribute("error", "ユーザーが存在しません");
+			redirectAttributes.addFlashAttribute("info", "ユーザーが存在しません");
 			return "redirect:/users/search";
 		}
 
@@ -51,10 +52,12 @@ public class FollowController {
 		follow.setFollowee(followUser);
 
 		followRepository.save(follow);
+		redirectAttributes.addFlashAttribute("info", "フォローしました");
 
 		return "redirect:/users/search";
 	}
 
+	// フォロー解除処理
 	@PostMapping("/unfollow")
 	public String unfollowUser(
 			@RequestParam(name = "followUserId") Integer followUserId,
@@ -65,7 +68,7 @@ public class FollowController {
 
 		if (optLoginUser.isEmpty() || optFollowUser.isEmpty()) {
 			// NULLの場合はエラー文を出力
-			redirectAttributes.addFlashAttribute("error", "ユーザーが存在しません");
+			redirectAttributes.addFlashAttribute("info", "ユーザーが存在しません");
 			return "redirect:/users/search";
 		}
 
@@ -76,7 +79,7 @@ public class FollowController {
 
 		if (optFollow.isPresent()) {
 			followRepository.delete(optFollow.get());
-			redirectAttributes.addFlashAttribute("success", "フォローを解除しました");
+			redirectAttributes.addFlashAttribute("info", "フォローを解除しました");
 		} else {
 			redirectAttributes.addFlashAttribute("info", "フォロー関係が存在しません");
 		}

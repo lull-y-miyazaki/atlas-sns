@@ -7,6 +7,10 @@
 </head>
 
 <body>
+	
+	<div th:if="${info}">
+		<span th:text="${info}"></span>
+	</div>
 
 	<div>
 		<form action="/users/search" method="get">
