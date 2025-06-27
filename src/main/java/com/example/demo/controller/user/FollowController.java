@@ -3,6 +3,8 @@ package com.example.demo.controller.user;
 
 import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,7 +35,8 @@ public class FollowController {
 	@PostMapping("/follow")
 	public String followUser(
 			@RequestParam(name = "followUserId") Integer followUserId,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes,
+			HttpServletRequest request) {
 
 		Follow follow = new Follow();
 		Optional<User> optLoginUser = userRepository.findById(account.getId());
@@ -42,7 +45,8 @@ public class FollowController {
 		if (optLoginUser.isEmpty() || optFollowUser.isEmpty()) {
 			// NULLの場合はエラー文を出力
 			redirectAttributes.addFlashAttribute("info", "ユーザーが存在しません");
-			return "redirect:/users/search";
+			String referer = request.getHeader("Referer");
+			return "redirect:" + referer;
 		}
 
 		User loginUser = optLoginUser.get();
@@ -54,14 +58,17 @@ public class FollowController {
 		followRepository.save(follow);
 		redirectAttributes.addFlashAttribute("info", "フォローしました");
 
-		return "redirect:/users/search";
+		// 元のページのURLを取得してリダイレクト
+		String referer = request.getHeader("Referer");
+		return "redirect:" + referer;
 	}
 
 	// フォロー解除処理
 	@PostMapping("/unfollow")
 	public String unfollowUser(
 			@RequestParam(name = "followUserId") Integer followUserId,
-			RedirectAttributes redirectAttributes) {
+			RedirectAttributes redirectAttributes,
+			HttpServletRequest request) {
 
 		Optional<User> optLoginUser = userRepository.findById(account.getId());
 		Optional<User> optFollowUser = userRepository.findById(followUserId);
@@ -69,7 +76,9 @@ public class FollowController {
 		if (optLoginUser.isEmpty() || optFollowUser.isEmpty()) {
 			// NULLの場合はエラー文を出力
 			redirectAttributes.addFlashAttribute("info", "ユーザーが存在しません");
-			return "redirect:/users/search";
+
+			String referer = request.getHeader("Referer");
+			return "redirect:" + referer;
 		}
 
 		User loginUser = optLoginUser.get();
@@ -84,7 +93,8 @@ public class FollowController {
 			redirectAttributes.addFlashAttribute("info", "フォロー関係が存在しません");
 		}
 
-		return "redirect:/users/search";
+		String referer = request.getHeader("Referer");
+		return "redirect:" + referer;
 	}
 
 }
