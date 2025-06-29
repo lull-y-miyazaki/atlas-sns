@@ -3,18 +3,23 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>フォロー情報一覧</title>
+	<link rel="stylesheet" th:href="@{/css/reset.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 
 <body>
-	
+
 	<header th:replace="~{fragments/header}"></header>
 
 	<h2 th:text="${listType == 'followings'} ? 'フォローリスト' : 'フォロワーリスト'"></h2>
 
 	<div>
 		<div th:each="user : ${userList}">
-			<span th:text="${user.name}"></span>
+			<a th:if="${user.id != loginUser.id}" th:href="@{/users/{userId}/profile(userId=${user.id})}">
+				<img th:src="@{${user.iconImage}}" alt="プロフィール画像">
+				<span th:text="${user.name}"></span>
+			</a>
 		</div>
 	</div>
 

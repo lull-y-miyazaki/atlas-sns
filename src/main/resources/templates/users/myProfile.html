@@ -3,11 +3,13 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>マイプロフィール</title>
+	<link rel="stylesheet" th:href="@{/css/reset.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
 </head>
 
 <body>
-	
+
 	<header th:replace="~{fragments/header}"></header>
 
 	<form action="/users/update" method="post" th:object="${user}" enctype="multipart/form-data">
