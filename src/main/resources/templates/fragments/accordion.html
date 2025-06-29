@@ -1,0 +1,19 @@
+<!-- アコーディオンメニュー -->
+
+<div class="accordion" th:fragment="accordion">
+	<div class="accordion-item">
+		<button class="accordion-button">
+			<div class="arrow"></div>
+		</button>
+
+		<div class="accordion-content">
+			<a th:href="@{/posts/index}">HOME</a>
+		</div>
+		<div class="accordion-content">
+			<a th:href="@{/users/myProfile}">プロフィール編集</a>
+		</div>
+		<div class="accordion-content">
+			<a th:href="@{/auth/logout}">ログアウト</a>
+		</div>
+	</div>
+</div>
