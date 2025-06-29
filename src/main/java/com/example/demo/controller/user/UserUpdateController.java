@@ -79,7 +79,7 @@ public class UserUpdateController {
 		// マイプロフィール情報の更新
 		user.setId(account.getId());
 		userRepository.save(user);
-		redirectAttributes.addFlashAttribute("success", "プロフィールの変更が完了しました！");
+		redirectAttributes.addFlashAttribute("info", "プロフィールの変更が完了しました！");
 
 		return "redirect:/posts/index";
 	}

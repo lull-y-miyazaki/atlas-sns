@@ -1,13 +1,22 @@
 <header style="background-color: skyblue;">
-	<div>
-		<a href="/posts/index">
-			<img th:src="@{/images/atlas.png}" alt="ロゴ">
-		</a>
-	</div>
-	<div>
-		<a href="/users/myProfile">
-			<img th:src="${@account.iconImage}" alt="プロフィール画像">
-		</a>
-		<span class="">こんにちは、<a href="/users/myProfile">[[${@account.name}]]</a>さん</span>
+	<div class="">
+		<div>
+			<a th:href="@{/posts/index}">
+				<img th:src="@{/images/atlas.png}" alt="ロゴ">
+			</a>
+		</div>
+
+		<div>
+			<span class="">こんにちは、<a href="/users/myProfile">[[${@account.name}]]</a>さん</span>
+		</div>
+
+		<div th:replace="~{fragments/accordion :: accordion}"></div>
+
+		<div class="profile-icon">
+			<a th:href="@{/users/myProfile}">
+				<img th:src="${@account.iconImage}" alt="プロフィール画像"
+					style="width: 50px; height: 50px; border-radius: 50%;">
+			</a>
+		</div>
 	</div>
 </header>

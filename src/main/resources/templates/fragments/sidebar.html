@@ -1,0 +1,25 @@
+<div class="sidebar" th:fragment="sidebar">
+
+	<div class="">[[${@account.name}]]さんの</div>
+	<div>
+		フォロー数
+	</div>
+	<div>
+		<a th:href="@{/users/{accountId}/followings(accountId=${@account.id})}">
+			<button type="button">フォローリスト</button>
+		</a>
+	</div>
+	<div>
+		フォロワー数
+	</div>
+	<div>
+		<a th:href="@{/users/{accountId}/followers(accountId=${@account.id})}">
+			<button type="button">フォロワーリスト</button>
+		</a>
+	</div>
+	<div>
+		<a href="/users/search">
+			<button type="button">ユーザー検索</button>
+		</a>
+	</div>
+</div>
