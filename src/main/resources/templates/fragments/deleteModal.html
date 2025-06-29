@@ -1,0 +1,16 @@
+<!-- 投稿の削除用モーダル -->
+
+<div class="delete-modal js-modal" id="delete-modal" th:fragment="deleteModal">
+
+	<div class="delete-modal__bg delete-modal-close"></div>
+
+	<div class="delete-modal__content">
+		<div class="delete_post_content"></div>
+		<div>この投稿を削除します。よろしいでしょうか？</div>
+		<form id="deleteModalForm" method="post" th:object="${post}">
+			<button class="delete-icon" type="submit">OK</button>
+		</form>
+		<button class="delete-modal-close" type="button">キャンセル</button>
+	</div>
+
+</div>

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -97,18 +98,43 @@ public class PostController {
 
 		post.setUser(userRepository.findById(account.getId()).orElseThrow());
 		postRepository.save(post);
-		redirectAttributes.addFlashAttribute("success", "投稿が完了しました！");
+		redirectAttributes.addFlashAttribute("info", "投稿が完了しました！");
 
 		return "redirect:/posts/index";
 	}
 
-	// 投稿の削除
+	// 投稿の更新処理
+	@PostMapping("/{postId}/update")
+	public String updatePost(
+			@PathVariable("postId") Integer postId,
+			@Validated @ModelAttribute("post") Post post,
+			BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
+
+		if (bindingResult.hasErrors()) {
+			// エラー内容をリダイレクト先に渡す
+			String message = bindingResult.getFieldError("content").getDefaultMessage();
+			redirectAttributes.addFlashAttribute("info", message);
+			return "redirect:/posts/index";
+		}
+
+		post.setId(postId);
+		post.setUser(userRepository.findById(account.getId()).orElseThrow());
+
+		postRepository.save(post);
+		redirectAttributes.addFlashAttribute("info", "投稿の編集が完了しました！");
+
+		return "redirect:/posts/index";
+	}
+
+	// 投稿の削除処理
 	@PostMapping("/{postId}/delete")
 	public String deletePost(
 			@PathVariable Integer postId,
-			Model model) {
+			RedirectAttributes redirectAttributes) {
 
 		postRepository.deleteById(postId);
+		redirectAttributes.addFlashAttribute("info", "投稿を削除しました！");
 
 		return "redirect:/posts/index";
 	}

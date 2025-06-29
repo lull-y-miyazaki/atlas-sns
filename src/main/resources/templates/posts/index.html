@@ -3,31 +3,37 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>Insert title here</title>
+	<title>TOP</title>
+	<link rel="stylesheet" th:href="@{/css/reset.css}">
+	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/modal.css}">
 </head>
 
 <body>
 
 	<header th:replace="~{fragments/header}"></header>
 
-	<div th:if="${success != null}" th:text="${success}"></div>
+	<div th:if="${info != null}" th:text="${info}"></div>
 
+	<!-- 新規投稿 -->
 	<div>
 		<form action="/posts/createPost" method="post" th:object="${post}">
 			<div th:if="${#fields.hasErrors('content')}" th:errors="${post.content}"></div>
-			<textarea th:field="${post.content}" cols="50" rows="5" placeholder="投稿内容を入力してください。" required></textarea>
-			<button type="submit">送信</button>
+			<textarea th:field="${post.content}" cols="50" rows="5" placeholder="投稿内容を入力してください。" required
+				maxlength="150"></textarea>
+			<button class="send-icon" type="submit"></button>
 		</form>
 	</div>
 
+	<!-- 投稿一覧 -->
 	<div th:each="post:${postList}">
-		<!-- ログインユーザー自身の場合 -->
+		<!-- ログインユーザー自身の場合の画像 -->
 		<a th:if="${post.user.id == loginUser.id}" th:href="@{/users/myProfile}">
 			<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
 			<div th:text="${post.user.name}"></div>
 		</a>
 
-		<!-- 他のユーザーの場合 -->
+		<!-- 他のユーザーの場合の画像 -->
 		<a th:if="${post.user.id != loginUser.id}" th:href="@{/users/{userId}/profile(userId=${post.user.id})}">
 			<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
 			<div th:text="${post.user.name}"></div>
@@ -35,17 +41,28 @@
 
 		<div th:text="${post.content}"></div>
 		<div th:text="${post.updatedAt}"></div>
-		<form action="">
-			<button>更新</button>
-		</form>
-		<form th:action="@{/posts/{postId}/delete(postId=${post.id})}" method="post">
-			<button>削除</button>
-		</form>
+
+		<th:block th:if="${@account.id} == ${post.user.id}">
+			<!-- 投稿更新ボタン -->
+			<button class="edit-icon edit-modal-open" th:data-id="${post.id}" th:data-content="${post.content}"
+				type="button"></button>
+
+			<!-- 投稿削除ボタン -->
+			<button class="delete-icon delete-modal-open" th:data-id="${post.id}" th:data-content="${post.content}"
+				type="button"></button>
+		</th:block>
 	</div>
 
-	<a th:href="@{/users/{accountId}/followings(accountId=${@account.id})}">フォローリスト</a>
-	<a th:href="@{/users/{accountId}/followers(accountId=${@account.id})}">フォロワーリスト</a>
-	<a href="/users/search">ユーザー検索</a>
+	<!-- サイドバーテンプレートの読み込み -->
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+	<!-- モーダルテンプレートの読み込み -->
+	<div th:replace="~{fragments/editModal :: editModal}"></div>
+	<div th:replace="~{fragments/deleteModal :: deleteModal}"></div>
+
+	<!-- JSファイルの読み込み -->
+	<script th:src="@{/js/postModal.js}"></script>
+	<script th:src="@{/js/accordion.js}"></script>
 
 </body>
 
