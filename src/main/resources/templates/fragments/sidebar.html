@@ -2,7 +2,7 @@
 
 	<div class="">[[${@account.name}]]さんの</div>
 	<div>
-		フォロー数
+		フォロー数：<span th:text="${followings}"></span>
 	</div>
 	<div>
 		<a th:href="@{/users/{accountId}/followings(accountId=${@account.id})}">
@@ -10,7 +10,7 @@
 		</a>
 	</div>
 	<div>
-		フォロワー数
+		フォロワー数：<span th:text="${followers}"></span>
 	</div>
 	<div>
 		<a th:href="@{/users/{accountId}/followers(accountId=${@account.id})}">

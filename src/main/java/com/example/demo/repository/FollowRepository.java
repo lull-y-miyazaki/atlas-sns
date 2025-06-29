@@ -13,4 +13,10 @@ public interface FollowRepository extends JpaRepository<Follow, Integer> {
 
 	Optional<Follow> findByFollowerAndFollowee(User follower, User followee);
 
+	// フォロー数カウント
+	int countByFolloweeId(Integer userId);
+
+	// フォロワー数カウント
+	int countByFollowerId(Integer userId);
+
 }
