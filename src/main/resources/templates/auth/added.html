@@ -4,18 +4,35 @@
 <head>
 	<meta charset="UTF-8">
 	<title>登録完了</title>
+	<link rel="stylesheet" th:href="@{/css/reset.css}">
+	<link rel="stylesheet" th:href="@{/css/auth.css}">
+	<link rel="stylesheet" th:href="@{/css/button.css}">
 </head>
 
-<body>
-	
-	<div>
-		ようこそ[[${name}]]さん
-	</div>
+<body class="auth-body">
+	<div class="auth-container">
 
-	<div>
-		<a href="/auth/login"><button type="button">ログイン画面へ</button></a>
-	</div>
+		<!-- タイトルテンプレートの読み込み -->
+		<div th:replace="~{fragments/authTitle :: authTitle}"></div>
 
+		<div class="auth-card">
+			<div class="auth-header">
+				<div class="auth-header__title font-bold">
+					[[${name}]]さん<br />
+					ようこそ!AtlasSNSへ
+				</div>
+			</div>
+			<div class="added-info">
+				ユーザー登録が完了いたしました。<br />
+				早速ログインしてみましょう！
+			</div>
+
+			<a href="/auth/login">
+				<button class="button-red">ログイン画面へ</button>
+			</a>
+
+		</div>
+	</div>
 </body>
 
 </html>

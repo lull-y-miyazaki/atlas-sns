@@ -7,13 +7,15 @@
 		</button>
 
 		<div class="accordion-content">
-			<a th:href="@{/posts/index}">HOME</a>
-		</div>
-		<div class="accordion-content">
-			<a th:href="@{/users/myProfile}">プロフィール編集</a>
-		</div>
-		<div class="accordion-content">
-			<a th:href="@{/auth/logout}">ログアウト</a>
+			<div class="nav-item">
+				<a th:href="@{/posts/index}">HOME</a>
+			</div>
+			<div class="nav-item">
+				<a th:href="@{/users/myProfile}">プロフィール編集</a>
+			</div>
+			<div class="nav-item">
+				<a th:href="@{/auth/logout}">ログアウト</a>
+			</div>
 		</div>
 	</div>
 </div>

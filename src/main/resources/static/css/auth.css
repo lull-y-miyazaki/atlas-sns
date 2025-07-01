@@ -1,0 +1,105 @@
+@charset "UTF-8";
+
+/** 
+ * ログインページ、新規ユーザー登録、登録完了画面の共通CSS
+ */
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+.auth-body {
+	font-family: sans-serif, Arial;
+	background: linear-gradient(180deg, #1269C8 0%, #4F8EF7 40%, #E3DA4D 100%);
+	min-height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px;
+	color: #fff;
+}
+
+.auth-container {
+	width: 100%;
+	max-width: 500px;
+	text-align: center;
+}
+
+.auth-title {
+	text-align: center;
+}
+
+.auth-title img {
+	width: 150px;
+}
+
+.auth-title h1 {
+	margin: 20px 0 30px 0;
+}
+
+.button-container {
+	text-align: right;
+	margin-bottom: 20px;
+}
+
+.auth-card {
+	background: rgba(0, 0, 0, 0.2);
+	backdrop-filter: blur(10px);
+	border-radius: 20px;
+	padding: 40px 30px;
+}
+
+.auth-header__title {
+	font-size: 1.3rem;
+	margin-bottom: 20px;
+}
+
+
+.auth-form {
+	width: 100%;
+	margin-bottom: 20px;
+	text-align: left;
+}
+
+.auth-form__label {
+	display: block;
+	color: white;
+	font-size: 1.1rem;
+	font-weight: 500;
+	margin-bottom: 8px;
+}
+
+.auth-form__input {
+	width: 100%;
+	line-height: 1.5;
+	padding: 10px 15px;
+	border: none;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.9);
+}
+
+.auth-form__input:focus {
+	background: white;
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+	outline: none;
+	transition: all 0.3s ease;
+}
+
+.auth-footer {
+	padding: 10px 0;
+}
+
+.auth-footer a:hover {
+	color: #C53030;
+}
+
+.font-bold {
+	font-weight: 700;
+}
+
+.added-info {
+	font-size: 1.1rem;
+	margin: 40px 0;
+}

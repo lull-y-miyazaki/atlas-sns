@@ -6,41 +6,79 @@
 	<title>ユーザープロフィール</title>
 	<link rel="stylesheet" th:href="@{/css/reset.css}">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/button.css}">
+	<link rel="stylesheet" th:href="@{/css/messages.css}">
 </head>
 
 <body>
 
-	<header th:replace="~{fragments/header}"></header>
+	<!-- ヘッダーテンプレートの読み込み -->
+	<header th:replace="~{fragments/header :: header}"></header>
 
-	<img th:src="@{${user.iconImage}}" alt="プロフィール画像">
-	<div>ユーザー名</div>
-	<div th:text="${user.name}"></div>
-	<div>自己紹介</div>
-	<div th:text="${user.bio}"></div>
+	<main class="main-container">
 
-	<!-- フォローしている場合 -->
-	<div th:if="${isFollowing}">
-		<form th:action="@{/users/unfollow}" method="post">
-			<input type="hidden" name="followUserId" th:value="${user.id}" />
-			<button type="submit">フォロー解除</button>
-		</form>
-	</div>
+		<div class="main-header">
+			<div class="user-profile-icon">
+				<img class="profile-icon__img" th:src="@{${user.iconImage}}" alt="プロフィール画像">
+			</div>
 
-	<!-- フォローしていない場合 -->
-	<div th:if="${!isFollowing}">
-		<form th:action="@{/users/follow}" method="post">
-			<input type="hidden" name="followUserId" th:value="${user.id}" />
-			<button type="submit">フォロー</button>
-		</form>
-	</div>
+			<div class="user-profile-info">
+				<div class="user-profile__item">
+					<div>ユーザー名</div>
+					<div>自己紹介</div>
+				</div>
+				<div class="user-profile__item">
+					<div th:text="${user.name}"></div>
+					<div th:text="${user.bio}"></div>
+				</div>
+				<!-- フォローしている場合 -->
+				<div class="follow-button-container" th:if="${isFollowing}">
+					<form th:action="@{/users/unfollow}" method="post">
+						<input type="hidden" name="followUserId" th:value="${user.id}" />
+						<button class="button-light-red" type="submit">フォロー解除</button>
+					</form>
+				</div>
 
-	<!-- ユーザーの投稿一覧 -->
-	<div th:each="post:${postList}">
-		<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
-		<div th:text="${post.user.name}"></div>
-		<div th:text="${post.content}"></div>
-		<div th:text="${post.updatedAt}"></div>
-	</div>
+				<!-- フォローしていない場合 -->
+				<div class="follow-button-container" th:if="${!isFollowing}">
+					<form th:action="@{/users/follow}" method="post">
+						<input type="hidden" name="followUserId" th:value="${user.id}" />
+						<button class="button-light-blue" type="submit">フォロー</button>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<!-- ユーザーの投稿一覧 -->
+
+		<div class="list-container">
+			<div th:each="post:${postList}">
+
+				<div class="list-container__item">
+					<!-- 他のユーザーの場合の画像 -->
+					<a th:href="@{/users/{userId}/profile(userId=${post.user.id})}">
+						<img class="profile-icon__img" th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
+					</a>
+
+					<div class="list-container__item-body">
+						<div class="list-container__user-name" th:text="${post.user.name}"></div>
+						<div class="list-container__post-content" th:utext="${post.content}"></div>
+					</div>
+
+					<div class="list-container__item-meta">
+						<div class="list-container__updateAt" th:text="${post.updatedAt}"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</main>
+
+	<!-- サイドバーテンプレートの読み込み -->
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+	<!-- JSファイルの読み込み -->
+	<script th:src="@{/js/accordion.js}"></script>
 
 </body>
 

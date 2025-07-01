@@ -6,51 +6,75 @@
 	<title>ユーザー検索</title>
 	<link rel="stylesheet" th:href="@{/css/reset.css}">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/button.css}">
+	<link rel="stylesheet" th:href="@{/css/messages.css}">
 </head>
 
 <body>
 
-	<header th:replace="~{fragments/header}"></header>
+	<!-- ヘッダーテンプレートの読み込み -->
+	<header th:replace="~{fragments/header :: header}"></header>
 
-	<div th:if="${info}">
-		<span th:text="${info}"></span>
-	</div>
+	<main class="main-container">
 
-	<div>
-		<form action="/users/search" method="get">
-			<input type="text" name="keyword" th:value="${keyword}" placeholder="ユーザー名" />
-			<button type="submit">検索</button>
-		</form>
-		<span th:if="${keyword}">検索ワード：[[${keyword}]]</span>
-	</div>
-
-	<div th:each="user:${userList}">
-		<a th:href="@{/users/{userId}/profile(userId=${user.id})}">
-			<img th:src="@{${user.iconImage}}" alt="プロフィール画像">
-			<span th:text="${user.name}"></span>
-		</a>
-		<div th:text="${user.updatedAt}"></div>
-
-		<!--/* contains(List, item) は「そのリストにその要素が含まれているか」をbooleanで返す */-->
-		<!--/* #listsはThymeleafのユーティリティオブジェクト */-->
-
-		<!--/* 現在のuserが、followingUsersに含まれている場合 */-->
-		<div th:if="${#lists.contains(followingUsers, user)}">
-			<form th:action="@{/users/unfollow}" method="post">
-				<input type="hidden" name="followUserId" th:value="${user.id}" />
-				<button type="submit">フォロー解除</button>
+		<div class="main-header">
+			<form class="search-form" action="/users/search" method="get">
+				<div class="seach-form-box">
+					<div>
+						<input class="search-form__input" type="text" name="keyword" th:value="${keyword}"
+							placeholder="ユーザー名" />
+					</div>
+					<div>
+						<button class="search-icon" type="submit"></button>
+					</div>
+				</div>
+				<div class="search-keyword" th:if="${keyword}">
+					<span>検索ワード：[[${keyword}]]</span>
+				</div>
 			</form>
 		</div>
 
-		<!--/* 現在のuserが、followingUsersに含まれていない場合 */-->
-		<div th:if="${!#lists.contains(followingUsers, user)}">
-			<form th:action="@{/users/follow}" method="post">
-				<input type="hidden" name="followUserId" th:value="${user.id}" />
-				<button type="submit">フォロー</button>
-			</form>
+		<div class="search-container">
+			<div th:each="user:${userList}">
+				<div class="user-profile">
+					<div class="user-profile-icon">
+						<a th:href="@{/users/{userId}/profile(userId=${user.id})}">
+							<img class="profile-icon__img" th:src="@{${user.iconImage}}" alt="プロフィール画像">
+						</a>
+					</div>
+					<div class="user-profile-name">
+						<span th:text="${user.name}"></span>
+					</div>
+
+					<!--/* contains(List, item) は「そのリストにその要素が含まれているか」をbooleanで返す */-->
+					<!--/* #listsはThymeleafのユーティリティオブジェクト */-->
+
+					<!--/* 現在のuserが、followingUsersに含まれている場合 */-->
+					<div class="follow-button-container" th:if="${#lists.contains(followingUsers, user)}">
+						<form th:action="@{/users/unfollow}" method="post">
+							<input type="hidden" name="followUserId" th:value="${user.id}" />
+							<button class="button-light-red" type="submit">フォロー解除</button>
+						</form>
+					</div>
+
+					<!--/* 現在のuserが、followingUsersに含まれていない場合 */-->
+					<div class="follow-button-container" th:if="${!#lists.contains(followingUsers, user)}">
+						<form th:action="@{/users/follow}" method="post">
+							<input type="hidden" name="followUserId" th:value="${user.id}" />
+							<button class="button-light-blue" type="submit">フォロー</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		</div>
 
-	</div>
+	</main>
+
+	<!-- サイドバーテンプレートの読み込み -->
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+	<!-- JSファイルの読み込み -->
+	<script th:src="@{/js/accordion.js}"></script>
 
 </body>
 

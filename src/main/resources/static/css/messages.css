@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+/**
+ * 通知・成功・エラーなどのメッセージCSS
+ */
+
+ .message-container{
+	width: 80%;
+	background-color: #fff;
+ }
+ 
+.message-box {
+	padding: 1em;
+	margin-bottom: 1em;
+	border-radius: 5px;
+	font-size: 1rem;
+}
+
+.message-box.error {
+	background-color: rgba(229, 62, 62, 0.3);
+	/* 薄い赤 */
+	color: #E53E3E;
+}
+
+.message-box.error ul {
+	margin: 0;
+	padding-left: 1.2em;
+}
+
+.message-box.error li {
+	list-style-type: disc;
+}
+
+.message-box.info {
+	background-color: rgba(72, 187, 120, 0.3);
+	/* 薄い緑 */
+	color: #38A169;
+}

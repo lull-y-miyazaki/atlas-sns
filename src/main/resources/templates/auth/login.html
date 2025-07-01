@@ -4,23 +4,52 @@
 <head>
 	<meta charset="UTF-8">
 	<title>ログイン</title>
+	<link rel="stylesheet" th:href="@{/css/reset.css}">
+	<link rel="stylesheet" th:href="@{/css/auth.css}">
+	<link rel="stylesheet" th:href="@{/css/button.css}">
+	<link rel="stylesheet" th:href="@{/css/messages.css}">
 </head>
 
-<body>
-	<h2>ログイン</h2>
-	<form action="/auth/login" method="post">
-		<div th:text="${message}"></div>
-		<div>
-			<input type="text" name="email" placeholder="メールアドレス" required />
-		</div>
-		<div>
-			<input type="password" name="password" placeholder="パスワード" required />
-		</div>
-		<button>ログイン</button>
-	</form>
+<body class="auth-body">
 
-	<a href="/auth/register">新規ユーザーの方はこちら</a>
+	<div class="auth-container">
 
+		<!-- タイトルテンプレートの読み込み -->
+		<div th:replace="~{fragments/authTitle :: authTitle}"></div>
+
+		<div class="auth-card">
+			<div class="auth-header">
+				<div class="auth-header__title">AtlasSNSへようこそ</div>
+			</div>
+
+			<form action="/auth/login" method="post">
+
+				<!-- 共通メッセージ表示 -->
+				<div th:if="${error != null}">
+						<div class="message-box error">
+							<p th:text="${error}"></p>
+						</div>
+					</div>
+
+				<div class="auth-form">
+					<label class="auth-form__label" for="email">メールアドレス</label>
+					<input class="auth-form__input" type="text" name="email" placeholder="メールアドレス" required />
+				</div>
+				<div class="auth-form">
+					<label class="auth-form__label" for="password">パスワード</label>
+					<input class="auth-form__input" type="password" name="password" placeholder="パスワード" required />
+				</div>
+				<div class="button-container">
+					<button class="button-red">ログイン</button>
+				</div>
+			</form>
+
+			<div class="auth-footer">
+				<a href="/auth/register">新規ユーザーの方はこちら</a>
+			</div>
+
+		</div>
+	</div>
 </body>
 
 </html>

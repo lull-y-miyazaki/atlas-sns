@@ -7,51 +7,73 @@
 	<link rel="stylesheet" th:href="@{/css/reset.css}">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
 	<link rel="stylesheet" th:href="@{/css/modal.css}">
+	<link rel="stylesheet" th:href="@{/css/button.css}">
+	<link rel="stylesheet" th:href="@{/css/messages.css}">
 </head>
 
 <body>
 
-	<header th:replace="~{fragments/header}"></header>
+	<!-- ヘッダーテンプレートの読み込み -->
+	<header th:replace="~{fragments/header :: header}"></header>
 
-	<div th:if="${info != null}" th:text="${info}"></div>
+	<main class="main-container">
 
-	<!-- 新規投稿 -->
-	<div>
+		<!-- 新規投稿 -->
 		<form action="/posts/createPost" method="post" th:object="${post}">
-			<div th:if="${#fields.hasErrors('content')}" th:errors="${post.content}"></div>
-			<textarea th:field="${post.content}" cols="50" rows="5" placeholder="投稿内容を入力してください。" required
-				maxlength="150"></textarea>
-			<button class="send-icon" type="submit"></button>
+			<div class="main-header">
+				<div class="profile-icon">
+					<a th:href="@{/users/myProfile}">
+						<img class="profile-icon__img" th:src="${@account.iconImage}" alt="プロフィール画像" />
+					</a>
+				</div>
+				<div th:if="${#fields.hasErrors('content')}" th:errors="${post.content}"></div>
+				<textarea class="create-post__textarea" th:field="${post.content}" cols="50" rows="5"
+					placeholder="投稿内容を入力してください。" required maxlength="150"></textarea>
+				<div class="post-button-container">
+					<button class="send-icon" type="submit"></button>
+				</div>
+			</div>
 		</form>
-	</div>
 
-	<!-- 投稿一覧 -->
-	<div th:each="post:${postList}">
-		<!-- ログインユーザー自身の場合の画像 -->
-		<a th:if="${post.user.id == loginUser.id}" th:href="@{/users/myProfile}">
-			<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
-			<div th:text="${post.user.name}"></div>
-		</a>
+		<!-- 投稿一覧 -->
+		<div class="list-container">
+			<div th:each="post:${postList}">
 
-		<!-- 他のユーザーの場合の画像 -->
-		<a th:if="${post.user.id != loginUser.id}" th:href="@{/users/{userId}/profile(userId=${post.user.id})}">
-			<img th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
-			<div th:text="${post.user.name}"></div>
-		</a>
+				<div class="list-container__item">
+					<!-- ログインユーザー自身の場合の画像 -->
+					<a th:if="${post.user.id == loginUser.id}" th:href="@{/users/myProfile}">
+						<img class="profile-icon__img" th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
+					</a>
 
-		<div th:text="${post.content}"></div>
-		<div th:text="${post.updatedAt}"></div>
+					<!-- 他のユーザーの場合の画像 -->
+					<a th:if="${post.user.id != loginUser.id}"
+						th:href="@{/users/{userId}/profile(userId=${post.user.id})}">
+						<img class="profile-icon__img" th:src="@{${post.user.iconImage}}" alt="プロフィール画像">
+					</a>
 
-		<th:block th:if="${@account.id} == ${post.user.id}">
-			<!-- 投稿更新ボタン -->
-			<button class="edit-icon edit-modal-open" th:data-id="${post.id}" th:data-content="${post.content}"
-				type="button"></button>
+					<div class="list-container__item-body">
+						<div class="list-container__user-name" th:text="${post.user.name}"></div>
+						<div class="list-container__post-content" th:utext="${post.content}"></div>
+					</div>
 
-			<!-- 投稿削除ボタン -->
-			<button class="delete-icon delete-modal-open" th:data-id="${post.id}" th:data-content="${post.content}"
-				type="button"></button>
-		</th:block>
-	</div>
+					<div class="list-container__item-meta">
+						<div class="list-container__updateAt" th:text="${post.updatedAt}"></div>
+						<th:block th:if="${@account.id} == ${post.user.id}">
+							<div class="list-container__action">
+								<!-- 投稿更新ボタン -->
+								<button class="edit-icon edit-modal-open" th:data-id="${post.id}"
+									th:data-content="${post.content}" type="button"></button>
+
+								<!-- 投稿削除ボタン -->
+								<button class="delete-icon delete-modal-open" th:data-id="${post.id}"
+									th:data-content="${post.content}" type="button"></button>
+							</div>
+						</th:block>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
 
 	<!-- サイドバーテンプレートの読み込み -->
 	<div th:replace="~{fragments/sidebar :: sidebar}"></div>

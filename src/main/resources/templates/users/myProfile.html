@@ -6,45 +6,82 @@
 	<title>マイプロフィール</title>
 	<link rel="stylesheet" th:href="@{/css/reset.css}">
 	<link rel="stylesheet" th:href="@{/css/common.css}">
+	<link rel="stylesheet" th:href="@{/css/button.css}">
+	<link rel="stylesheet" th:href="@{/css/messages.css}">
 </head>
 
 <body>
 
-	<header th:replace="~{fragments/header}"></header>
+	<!-- ヘッダーテンプレートの読み込み -->
+	<header th:replace="~{fragments/header :: header}"></header>
 
-	<form action="/users/update" method="post" th:object="${user}" enctype="multipart/form-data">
-		<div>
-			<label for="">ユーザー名</label>
-			<input type="text" th:field="${user.name}" class="" placeholder="名前" required pattern=".{3,15}"
-				title="※名前は3～15文字以内" />
-			<div th:if="${#fields.hasErrors('name')}" th:errors="${user.name}"></div>
+	<main class="main-container">
+
+		<div class="profile-from-container">
+			<div class="user-profile-icon">
+				<img class="profile-icon__img" th:src="@{${user.iconImage}}" alt="プロフィール画像">
+			</div>
+
+			<div class="my-profile-from">
+				<form action="/users/update" method="post" th:object="${user}" enctype="multipart/form-data">
+
+					<div class="my-profile-from-box">
+						<label>ユーザー名</label>
+						<div class="my-profile-from-item">
+							<input type="text" th:field="${user.name}" class="" placeholder="名前" required
+								pattern=".{3,15}" title="※名前は3～15文字以内" />
+							<div th:if="${#fields.hasErrors('name')}" th:errors="${user.name}"></div>
+						</div>
+					</div>
+					<div class="my-profile-from-box">
+						<label>メールアドレス</label>
+						<div class="my-profile-from-item">
+							<input type="email" th:field="${user.email}" class="" placeholder="メールアドレス" required />
+							<div th:if="${#fields.hasErrors('email')}" th:errors="${user.email}"></div>
+						</div>
+					</div>
+					<div class="my-profile-from-box">
+						<label>パスワード</label>
+						<div class="my-profile-from-item">
+							<input type="password" th:field="${user.password}" class="" placeholder="パスワード" required
+								pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$" title="※英数字を含む5文字以上" />
+							<div th:if="${#fields.hasErrors('password')}" th:errors="${user.password}"></div>
+						</div>
+					</div>
+					<div class="my-profile-from-box">
+						<label>パスワード確認</label>
+						<div class="my-profile-from-item">
+							<input type="password" name="password_confirm" class="" placeholder="パスワード（確認）" required />
+						</div>
+					</div>
+					<div class="my-profile-from-box">
+						<label>自己紹介</label>
+						<div class="my-profile-from-item">
+							<textarea th:field="${user.bio}" id="" cols="30" rows="10"></textarea>
+							<div th:if="${#fields.hasErrors('bio')}" th:errors="${user.bio}"></div>
+						</div>
+					</div>
+					<div class="my-profile-from-box">
+						<label>アイコン画像</label>
+						<div class="my-profile-from-item file-box">
+							<label for="fileInput" class="file-label">ファイルを選択</label>
+							<input id="fileInput" class="file-input" type="file" name="file" />
+						</div>
+					</div>
+					<div class="my-profile-from-btn">
+						<button class="button-red">更新</button>
+					</div>
+				</form>
+			</div>
 		</div>
-		<div>
-			<label for="">メールアドレス</label>
-			<input type="email" th:field="${user.email}" class="" placeholder="メールアドレス" required />
-			<div th:if="${#fields.hasErrors('email')}" th:errors="${user.email}"></div>
-		</div>
-		<div>
-			<label for="">パスワード</label>
-			<input type="password" th:field="${user.password}" class="" placeholder="パスワード" required
-				pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$" title="※英数字を含む5文字以上" />
-			<div th:if="${#fields.hasErrors('password')}" th:errors="${user.password}"></div>
-		</div>
-		<div>
-			<label for="">パスワード確認</label>
-			<input type="password" name="password_confirm" class="" placeholder="パスワード（確認）" required />
-		</div>
-		<div>
-			<label for="">自己紹介</label>
-			<textarea th:field="${user.bio}" id="" cols="30" rows="10"></textarea>
-			<div th:if="${#fields.hasErrors('bio')}" th:errors="${user.bio}"></div>
-		</div>
-		<div>
-			<input name="file" type="file">
-		</div>
-		<div th:if="${error != null}" th:text="${error}"></div>
-		<button>更新</button>
-	</form>
+	</main>
+
+	<!-- サイドバーテンプレートの読み込み -->
+	<div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+	<!-- JSファイルの読み込み -->
+	<script th:src="@{/js/accordion.js}"></script>
+	<script th:src="@{/js/updateFile.js}"></script>
 
 </body>
 

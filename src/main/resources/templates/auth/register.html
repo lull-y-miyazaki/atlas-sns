@@ -4,36 +4,69 @@
 <head>
 	<meta charset="UTF-8">
 	<title>新規ユーザー登録</title>
+	<link rel="stylesheet" th:href="@{/css/reset.css}">
+	<link rel="stylesheet" th:href="@{/css/auth.css}">
+	<link rel="stylesheet" th:href="@{/css/button.css}">
+	<link rel="stylesheet" th:href="@{/css/messages.css}">
 </head>
 
-<body>
+<body class="auth-body">
 
-	<h2>ユーザー新規登録</h2>
+	<div class="auth-container">
 
-	<form action="/auth/register" method="post" th:object="${user}">
-		<div>
-			<input type="text" th:field="${user.name}" class="" placeholder="名前" required pattern=".{3,15}"
-				title="※名前は3～15文字以内" />
-			<div th:if="${#fields.hasErrors('name')}" th:errors="${user.name}"></div>
-		</div>
-		<div>
-			<input type="email" th:field="${user.email}" class="" placeholder="メールアドレス" required />
-			<div th:if="${#fields.hasErrors('email')}" th:errors="${user.email}"></div>
-		</div>
-		<div>
-			<input type="password" th:field="${user.password}" class="" placeholder="パスワード" required
-				pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$" title="※英数字を含む5文字以上" />
-			<div th:if="${#fields.hasErrors('password')}" th:errors="${user.password}"></div>
-		</div>
-		<div>
-			<input type="password" name="password_confirm" class="" placeholder="パスワード（確認）" required />
-		</div>
-		<div th:if="${error != null}" th:text="${error}"></div>
-		<button>新規作成</button>
-	</form>
+		<!-- タイトルテンプレートの読み込み -->
+		<div th:replace="~{fragments/authTitle :: authTitle}"></div>
 
-	<a href="/auth/login">ログイン画面へ戻る</a>
+		<div class="auth-card">
+			<div class="auth-header">
+				<div class="auth-header__title">新規ユーザー登録</div>
+			</div>
 
+			<form action="/auth/register" method="post" th:object="${user}">
+
+				<!-- 共通エラー表示 -->
+				<div th:if="${#fields.hasErrors() or error != null}">
+					<div class="message-box error">
+						<!-- フィールドごとのエラー -->
+						<ul>
+							<li th:each="err : ${#fields.errors()}" th:text="${err}"></li>
+						</ul>
+						<!-- サーバー側から渡されるエラー -->
+						<p th:if="${error != null}" th:text="${error}"></p>
+					</div>
+				</div>
+
+				<div class="auth-form">
+					<label class="auth-form__label">ユーザー名</label>
+					<input class="auth-form__input" type="text" th:field="${user.name}" placeholder="名前" required
+						pattern=".{3,15}" title="※名前は3～15文字以内" />
+				</div>
+				<div class="auth-form">
+					<label class="auth-form__label">メールアドレス</label>
+					<input class="auth-form__input" type="email" th:field="${user.email}" placeholder="メールアドレス"
+						required />
+				</div>
+				<div class="auth-form">
+					<label class="auth-form__label">パスワード</label>
+					<input class="auth-form__input" type="password" th:field="${user.password}" placeholder="パスワード"
+						required pattern="^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$" title="※英数字を含む5文字以上" />
+				</div>
+				<div class="auth-form">
+					<label class="auth-form__label">パスワード確認</label>
+					<input class="auth-form__input" type="password" name="password_confirm" placeholder="パスワード（確認）"
+						required />
+				</div>
+
+				<div class="button-container">
+					<button class="button-red">新規作成</button>
+				</div>
+			</form>
+
+			<div class="auth-footer">
+				<a href="/auth/login">ログイン画面へ戻る</a>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
