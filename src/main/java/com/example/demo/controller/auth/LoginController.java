@@ -39,7 +39,7 @@ public class LoginController {
 
 		// クエリパラメータで"notLoggedIn"を受け取った場合
 		if (error.equals("notLoggedIn")) {
-			model.addAttribute("message", "ログインしてください");
+			model.addAttribute("error", "ログインしてください");
 		}
 
 		return "auth/login";
@@ -54,7 +54,7 @@ public class LoginController {
 
 		// email または password が空の場合にエラーメッセージを表示
 		if (email == null || email.isEmpty() || password == null || password.isEmpty()) {
-			model.addAttribute("message", "メールアドレスとパスワードを入力してください");
+			model.addAttribute("error", "メールアドレスとパスワードを入力してください");
 			return "auth/login";
 		}
 
@@ -63,7 +63,7 @@ public class LoginController {
 
 		// email または password が正しくない場合にエラーメッセージを表示
 		if (user == null) {
-			model.addAttribute("message", "メールアドレスまたはパスワードが正しくありません");
+			model.addAttribute("error", "メールアドレスまたはパスワードが正しくありません");
 			return "auth/login";
 		}
 

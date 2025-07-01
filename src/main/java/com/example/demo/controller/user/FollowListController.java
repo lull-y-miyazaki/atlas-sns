@@ -1,5 +1,7 @@
 package com.example.demo.controller.user;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.entity.Follow;
+import com.example.demo.entity.Post;
 import com.example.demo.entity.User;
 import com.example.demo.model.Account;
+import com.example.demo.repository.PostRepository;
 import com.example.demo.repository.UserRepository;
 
 @Controller
@@ -20,6 +24,9 @@ public class FollowListController {
 
 	@Autowired
 	private UserRepository userRepository;
+
+	@Autowired
+	private PostRepository postRepository;
 
 	@Autowired
 	private Account account;
@@ -37,8 +44,15 @@ public class FollowListController {
 				.map(Follow::getFollowee)
 				.collect(Collectors.toList()));
 
+		List<Integer> userIds = new ArrayList<>();
+		for (Follow follow : loginUser.getFollowings()) {
+			userIds.add(follow.getFollowee().getId());
+		}
+		List<Post> postList = postRepository.findByUserIdInOrderByCreatedAtDesc(userIds);
+
 		model.addAttribute("listType", "followings");
 		model.addAttribute("loginUser", loginUser);
+		model.addAttribute("postList", postList);
 
 		return "users/followList";
 	}
@@ -56,8 +70,15 @@ public class FollowListController {
 				.map(Follow::getFollower)
 				.collect(Collectors.toList()));
 
+		List<Integer> userIds = new ArrayList<>();
+		for (Follow follow : loginUser.getFollowers()) {
+			userIds.add(follow.getFollower().getId());
+		}
+		List<Post> postList = postRepository.findByUserIdInOrderByCreatedAtDesc(userIds);
+
 		model.addAttribute("listType", "followers");
 		model.addAttribute("loginUser", loginUser);
+		model.addAttribute("postList", postList);
 
 		return "users/followList";
 	}

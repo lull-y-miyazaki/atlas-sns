@@ -96,6 +96,10 @@ public class PostController {
 			return "redirect:/posts/index";
 		}
 
+		// 改行を<br />に変換して保存
+		String contentWithBr = post.getContent().replace("\n", "<br>");
+		post.setContent(contentWithBr);
+
 		post.setUser(userRepository.findById(account.getId()).orElseThrow());
 		postRepository.save(post);
 		redirectAttributes.addFlashAttribute("info", "投稿が完了しました！");
