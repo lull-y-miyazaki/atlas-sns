@@ -56,10 +56,31 @@ button {
 	background: rgb(25, 115, 230);
 }
 
+.button-gray {
+	width: 123px;
+	background-color: #fff;
+	border: 2px solid #C6C6C6;
+	color: #C6C6C6;
+	transition: all 0.3s ease;
+}
+
+.button-gray:hover {
+	color: #fff;
+	background: #C6C6C6;
+}
+
+
 .follow-btn {
 	font-size: 14px;
 }
 
 .users-btn {
 	margin: 0 auto;
+}
+
+.delete-modal-form {
+	.button-blue {
+		width: 123px;
+		border: 2px solid #1269C8;
+	}
 }

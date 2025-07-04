@@ -5,9 +5,9 @@
 	<div class="edit-modal__bg edit-modal-close"></div>
 
 	<div class="edit-modal__content">
-		<form id="editModalForm" method="post" th:object="${post}">
+		<form id="editModalForm" class="edit-modal-form" method="post" th:object="${post}">
 			<div th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
-			<textarea name="post_content" class="modal_post_content" th:field="*{content}" placeholder="投稿内容を入力してください。"
+			<textarea name="post_content" class="modal-post-content" th:field="*{content}" placeholder="投稿内容を入力してください。"
 				required maxlength="150"></textarea>
 			<button class="edit-icon" type="submit"></button>
 		</form>

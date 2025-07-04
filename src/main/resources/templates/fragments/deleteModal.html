@@ -5,12 +5,14 @@
 	<div class="delete-modal__bg delete-modal-close"></div>
 
 	<div class="delete-modal__content">
-		<div class="delete_post_content"></div>
-		<div>この投稿を削除します。よろしいでしょうか？</div>
-		<form id="deleteModalForm" method="post" th:object="${post}">
-			<button class="delete-icon" type="submit">OK</button>
-		</form>
-		<button class="delete-modal-close" type="button">キャンセル</button>
+		<!-- <div class="delete_post_content"></div> -->
+		<div class="delete-modal__info">この投稿を削除します。よろしいでしょうか？</div>
+		<div class="delete-modal-form">
+			<form id="deleteModalForm" method="post" th:object="${post}">
+				<button class="button-blue" type="submit">OK</button>
+			</form>
+			<button class="delete-modal-close button-gray" type="button">キャンセル</button>
+		</div>
 	</div>
 
 </div>

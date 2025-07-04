@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 			const editPostId = button.getAttribute("data-id");
 			const editPostContent = button.getAttribute("data-content");
-			editModal.querySelector(".modal_post_content").value = editPostContent;
+			editModal.querySelector(".modal-post-content").value = editPostContent;
 
 			const editForm = document.getElementById("editModalForm");
 			editForm.action = `/posts/${editPostId}/update`;
@@ -43,8 +43,8 @@ document.addEventListener("DOMContentLoaded", () => {
 			event.preventDefault();
 
 			const deletePostId = button.getAttribute("data-id");
-			const deletePostContent = button.getAttribute("data-content");
-			deleteModal.querySelector(".delete_post_content").textContent = deletePostContent;
+			/*const deletePostContent = button.getAttribute("data-content");
+			deleteModal.querySelector(".delete_post_content").textContent = deletePostContent;*/
 
 			const deleteForm = document.getElementById("deleteModalForm");
 			deleteForm.action = `/posts/${deletePostId}/delete`;
